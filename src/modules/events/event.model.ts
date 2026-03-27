@@ -1,0 +1,53 @@
+import mongoose, { Schema, Document } from 'mongoose';
+
+export interface IRegistration {
+  full_name: string;
+  email: string;
+  role: string;
+  company: string | null;
+  experience_level: string;
+  comments: string | null;
+  registered_at: Date;
+}
+
+export interface IEvent extends Document {
+  title: string;
+  date: string;
+  format: string;
+  description: string;
+  category: string;
+  is_published: boolean;
+  registrations: IRegistration[];
+  created_at: Date;
+  updated_at: Date;
+}
+
+const registrationSchema = new Schema<IRegistration>(
+  {
+    full_name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, lowercase: true, trim: true },
+    role: { type: String, required: true, trim: true },
+    company: { type: String, default: null },
+    experience_level: { type: String, required: true, trim: true },
+    comments: { type: String, default: null },
+    registered_at: { type: Date, default: Date.now },
+  },
+  { _id: false },
+);
+
+const eventSchema = new Schema<IEvent>(
+  {
+    title: { type: String, required: true, trim: true, maxlength: 200 },
+    date: { type: String, required: true },
+    format: { type: String, required: true, trim: true, maxlength: 100 },
+    description: { type: String, required: true, trim: true, maxlength: 5000 },
+    category: { type: String, required: true, trim: true, maxlength: 100 },
+    is_published: { type: Boolean, default: false },
+    registrations: { type: [registrationSchema], default: [] },
+  },
+  {
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+  },
+);
+
+export const Event = mongoose.model<IEvent>('Event', eventSchema);
