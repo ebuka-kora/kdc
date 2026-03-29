@@ -1,6 +1,6 @@
-# Render Blueprint — deploy from the Git root that contains this file and package.json.
-# In the dashboard: Root Directory must be empty (or this folder if the repo root is above it).
-# Do NOT set Root Directory to `src` — that makes Node look for src/dist/server.js and fails.
+# Root = folder with this file + package.json. Clear any custom Start Command that uses `src/dist/server.js`.
+# Preferred: startCommand `npm start` (runs start.cjs → dist/server.js).
+# If the dashboard forces `node src/dist/server.js`, the shim at src/dist/server.js still boots the app.
 services:
   - type: web
     name: kdc-api
