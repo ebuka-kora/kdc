@@ -1,6 +1,8 @@
-import { z } from 'zod';
+const { z } = require('zod');
 
-export const loginSchema = z.object({
+const loginSchema = z.object({
   email: z.string().email('Invalid email address').trim().toLowerCase(),
   password: z.string().min(1, 'Password is required'),
 });
+
+module.exports = { loginSchema };

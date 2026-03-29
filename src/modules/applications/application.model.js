@@ -1,19 +1,7 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { APPLICATION_STATUSES, ApplicationStatus } from '../../constants';
+const mongoose = require('mongoose');
+const { APPLICATION_STATUSES } = require('../../constants');
 
-export interface IApplication extends Document {
-  full_name: string;
-  email: string;
-  role: string;
-  experience_level: string;
-  reason: string;
-  linkedin_url: string | null;
-  github_url: string | null;
-  status: ApplicationStatus;
-  created_at: Date;
-}
-
-const applicationSchema = new Schema<IApplication>(
+const applicationSchema = new mongoose.Schema(
   {
     full_name: { type: String, required: true, trim: true, maxlength: 200 },
     email: { type: String, required: true, lowercase: true, trim: true, maxlength: 254 },
@@ -29,4 +17,6 @@ const applicationSchema = new Schema<IApplication>(
   },
 );
 
-export const Application = mongoose.model<IApplication>('Application', applicationSchema);
+const Application = mongoose.model('Application', applicationSchema);
+
+module.exports = { Application };

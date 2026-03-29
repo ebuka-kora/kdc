@@ -2,11 +2,10 @@
   "name": "kdc",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "src/server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
-    "start": "node start.cjs"
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,14 +22,5 @@
     "mongodb": "^7.1.1",
     "mongoose": "^9.3.2",
     "zod": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/bcryptjs": "^2.4.6",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.6",
-    "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.5.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^6.0.2"
   }
 }

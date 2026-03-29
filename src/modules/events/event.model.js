@@ -1,28 +1,6 @@
-import mongoose, { Schema, Document } from 'mongoose';
+const mongoose = require('mongoose');
 
-export interface IRegistration {
-  full_name: string;
-  email: string;
-  role: string;
-  company: string | null;
-  experience_level: string;
-  comments: string | null;
-  registered_at: Date;
-}
-
-export interface IEvent extends Document {
-  title: string;
-  date: string;
-  format: string;
-  description: string;
-  category: string;
-  is_published: boolean;
-  registrations: IRegistration[];
-  created_at: Date;
-  updated_at: Date;
-}
-
-const registrationSchema = new Schema<IRegistration>(
+const registrationSchema = new mongoose.Schema(
   {
     full_name: { type: String, required: true, trim: true },
     email: { type: String, required: true, lowercase: true, trim: true },
@@ -35,7 +13,7 @@ const registrationSchema = new Schema<IRegistration>(
   { _id: false },
 );
 
-const eventSchema = new Schema<IEvent>(
+const eventSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, maxlength: 200 },
     date: { type: String, required: true },
@@ -50,4 +28,6 @@ const eventSchema = new Schema<IEvent>(
   },
 );
 
-export const Event = mongoose.model<IEvent>('Event', eventSchema);
+const Event = mongoose.model('Event', eventSchema);
+
+module.exports = { Event };

@@ -1,11 +1,8 @@
-# Root = folder with this file + package.json. Clear any custom Start Command that uses `src/dist/server.js`.
-# Preferred: startCommand `npm start` (runs start.cjs → dist/server.js).
-# If the dashboard forces `node src/dist/server.js`, the shim at src/dist/server.js still boots the app.
 services:
   - type: web
     name: kdc-api
     runtime: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV

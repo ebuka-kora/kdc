@@ -1,9 +1,9 @@
-import { connectDB } from './config/db';
-import { seedAdmin } from './modules/admin/auth/auth.service';
-import { env } from './config/env';
-import app from './app';
+const { connectDB } = require('./config/db');
+const { seedAdmin } = require('./modules/admin/auth/auth.service');
+const { env } = require('./config/env');
+const app = require('./app');
 
-async function bootstrap(): Promise<void> {
+async function bootstrap() {
   await connectDB();
   await seedAdmin();
   app.listen(env.PORT, () => {

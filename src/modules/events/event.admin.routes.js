@@ -1,13 +1,13 @@
-import { Router } from 'express';
-import { authMiddleware } from '../../middlewares/auth.middleware';
-import { validate } from '../../middlewares/validate.middleware';
-import { createEventSchema, updateEventSchema } from './event.schema';
-import {
+const { Router } = require('express');
+const { authMiddleware } = require('../../middlewares/auth.middleware');
+const { validate } = require('../../middlewares/validate.middleware');
+const { createEventSchema, updateEventSchema } = require('./event.schema');
+const {
   adminGetEvents,
   createEventHandler,
   updateEventHandler,
   deleteEventHandler,
-} from './event.controller';
+} = require('./event.controller');
 
 const router = Router();
 
@@ -18,4 +18,4 @@ router.post('/admin/events', validate(createEventSchema), createEventHandler);
 router.patch('/admin/events/:id', validate(updateEventSchema), updateEventHandler);
 router.delete('/admin/events/:id', deleteEventHandler);
 
-export default router;
+module.exports = router;

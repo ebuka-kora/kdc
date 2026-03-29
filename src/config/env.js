@@ -1,7 +1,6 @@
-import dotenv from 'dotenv';
-import { z } from 'zod';
+const dotenv = require('dotenv');
+const { z } = require('zod');
 
-// Local: use `.env`. Production (Railway, Render, etc.): variables are injected into `process.env` — no file.
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
@@ -27,4 +26,4 @@ if (!parsed.success) {
   process.exit(1);
 }
 
-export const env = parsed.data;
+exports.env = parsed.data;
