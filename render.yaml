@@ -1,0 +1,12 @@
+# Render Blueprint — deploy from the Git root that contains this file and package.json.
+# In the dashboard: Root Directory must be empty (or this folder if the repo root is above it).
+# Do NOT set Root Directory to `src` — that makes Node look for src/dist/server.js and fails.
+services:
+  - type: web
+    name: kdc-api
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
