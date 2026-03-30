@@ -9,6 +9,7 @@ const createEventSchema = z.object({
   category: z.string().trim().min(1, 'Category is required').max(100),
   description: z.string().trim().min(1, 'Description is required').max(5000),
   is_published: z.boolean().optional().default(false),
+  registration_open: z.boolean().optional().default(true),
 });
 
 const updateEventSchema = createEventSchema.partial();

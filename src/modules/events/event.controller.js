@@ -35,6 +35,10 @@ function toRegistrationDto(reg, eventIdStr, index) {
 const toEventDto = (doc) => {
   const createdAtValue = doc.created_at ?? doc.createdAt ?? null;
   const updatedAtValue = doc.updated_at ?? doc.updatedAt ?? null;
+  const registrationOpen =
+    doc.registration_open === undefined || doc.registration_open === null
+      ? true
+      : Boolean(doc.registration_open);
 
   return {
     id: String(doc._id),
@@ -44,6 +48,7 @@ const toEventDto = (doc) => {
     description: doc.description,
     category: doc.category,
     is_published: doc.is_published,
+    registration_open: registrationOpen,
     created_at: createdAtValue?.toISOString?.() ?? createdAtValue,
     updated_at: updatedAtValue?.toISOString?.() ?? updatedAtValue,
   };
@@ -55,7 +60,12 @@ const getEvents = catchAsync(async (_req, res) => {
 });
 
 const registerForEventHandler = catchAsync(async (req, res) => {
-  await registerForEvent(req.params.eventId, req.body);
+  const { eventId } = req.params;
+  if (!Types.ObjectId.isValid(eventId)) {
+    res.status(400).json({ message: 'Invalid value for field: _id' });
+    return;
+  }
+  await registerForEvent(eventId, req.body);
   res.status(201).json({ message: 'Registration successful' });
 });
 

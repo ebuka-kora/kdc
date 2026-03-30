@@ -26,6 +26,9 @@ async function registerForEvent(eventId, data) {
   const event = await Event.findById(eventId);
   if (!event) throw new ApiError(404, 'Event not found');
   if (!event.is_published) throw new ApiError(404, 'Event not found');
+  if (event.registration_open === false) {
+    throw new ApiError(403, 'Registration is closed for this event.');
+  }
 
   event.registrations.push({ ...data, registered_at: new Date() });
   await event.save();

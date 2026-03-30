@@ -21,6 +21,7 @@ const eventSchema = new mongoose.Schema(
     description: { type: String, required: true, trim: true, maxlength: 5000 },
     category: { type: String, required: true, trim: true, maxlength: 100 },
     is_published: { type: Boolean, default: false },
+    registration_open: { type: Boolean, default: true },
     registrations: { type: [registrationSchema], default: [] },
   },
   {
