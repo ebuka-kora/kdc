@@ -1,4 +1,5 @@
 const { catchAsync } = require('../../utils/catchAsync');
+const { Types } = require('mongoose');
 const { ApiError } = require('../../utils/ApiError');
 const {
   listPublishedEvents,
@@ -9,9 +10,26 @@ const {
   registerForEvent,
 } = require('./event.service');
 
+const toEventDto = (doc) => {
+  const createdAtValue = doc.created_at ?? doc.createdAt ?? null;
+  const updatedAtValue = doc.updated_at ?? doc.updatedAt ?? null;
+
+  return {
+    id: String(doc._id),
+    title: doc.title,
+    date: doc.date,
+    format: doc.format,
+    description: doc.description,
+    category: doc.category,
+    is_published: doc.is_published,
+    created_at: createdAtValue?.toISOString?.() ?? createdAtValue,
+    updated_at: updatedAtValue?.toISOString?.() ?? updatedAtValue,
+  };
+};
+
 const getEvents = catchAsync(async (_req, res) => {
   const events = await listPublishedEvents();
-  res.status(200).json(events);
+  res.status(200).json(events.map(toEventDto));
 });
 
 const registerForEventHandler = catchAsync(async (req, res) => {
@@ -21,21 +39,31 @@ const registerForEventHandler = catchAsync(async (req, res) => {
 
 const adminGetEvents = catchAsync(async (_req, res) => {
   const events = await listAllEvents();
-  res.status(200).json(events);
+  res.status(200).json(events.map(toEventDto));
 });
 
 const createEventHandler = catchAsync(async (req, res) => {
   const event = await createEvent(req.body);
-  res.status(201).json(event);
+  res.status(201).json(toEventDto(event));
 });
 
 const updateEventHandler = catchAsync(async (req, res) => {
+  if (!Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Invalid value for field: _id' });
+    return;
+  }
+
   const updated = await updateEvent(req.params.id, req.body);
   if (!updated) throw new ApiError(404, 'Event not found');
-  res.status(200).json(updated);
+  res.status(200).json(toEventDto(updated));
 });
 
 const deleteEventHandler = catchAsync(async (req, res) => {
+  if (!Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: 'Invalid value for field: _id' });
+    return;
+  }
+
   const deleted = await deleteEvent(req.params.id);
   if (!deleted) throw new ApiError(404, 'Event not found');
   res.status(204).send();
