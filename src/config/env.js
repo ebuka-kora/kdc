@@ -26,4 +26,12 @@ if (!parsed.success) {
   process.exit(1);
 }
 
-exports.env = parsed.data;
+const corsOrigins = parsed.data.CORS_ORIGIN
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+exports.env = {
+  ...parsed.data,
+  CORS_ORIGINS: corsOrigins,
+};

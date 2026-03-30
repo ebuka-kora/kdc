@@ -11,11 +11,19 @@ const eventRoutes = require('./modules/events/event.routes');
 const eventAdminRoutes = require('./modules/events/event.admin.routes');
 
 const app = express();
+const allowedOrigins = env.CORS_ORIGINS;
 
 app.use(helmet());
 app.use(
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: (origin, callback) => {
+      // Allow non-browser requests (no Origin header) and configured browser origins.
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   }),
 );
