@@ -10,7 +10,7 @@ const registrationSchema = new mongoose.Schema(
     comments: { type: String, default: null },
     registered_at: { type: Date, default: Date.now },
   },
-  { _id: false },
+  { _id: true },
 );
 
 const eventSchema = new mongoose.Schema(

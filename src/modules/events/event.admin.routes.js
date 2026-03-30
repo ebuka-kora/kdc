@@ -4,6 +4,7 @@ const { validate } = require('../../middlewares/validate.middleware');
 const { createEventSchema, updateEventSchema } = require('./event.schema');
 const {
   adminGetEvents,
+  adminGetEventRegistrations,
   createEventHandler,
   updateEventHandler,
   deleteEventHandler,
@@ -14,6 +15,7 @@ const router = Router();
 router.use('/admin', authMiddleware);
 
 router.get('/admin/events', adminGetEvents);
+router.get('/admin/events/:eventId/registrations', adminGetEventRegistrations);
 router.post('/admin/events', validate(createEventSchema), createEventHandler);
 router.patch('/admin/events/:id', validate(updateEventSchema), updateEventHandler);
 router.delete('/admin/events/:id', deleteEventHandler);

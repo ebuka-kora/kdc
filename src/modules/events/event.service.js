@@ -31,6 +31,10 @@ async function registerForEvent(eventId, data) {
   await event.save();
 }
 
+async function getEventWithRegistrations(eventId) {
+  return Event.findById(eventId).select('registrations').lean();
+}
+
 module.exports = {
   listPublishedEvents,
   listAllEvents,
@@ -38,4 +42,5 @@ module.exports = {
   updateEvent,
   deleteEvent,
   registerForEvent,
+  getEventWithRegistrations,
 };
