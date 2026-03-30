@@ -11,7 +11,7 @@ const {
 
 const router = Router();
 
-router.use(authMiddleware);
+router.use('/admin', authMiddleware);
 
 router.get('/admin/events', adminGetEvents);
 router.post('/admin/events', validate(createEventSchema), createEventHandler);

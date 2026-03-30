@@ -6,7 +6,7 @@ const { getApplications, patchApplication, removeApplication } = require('./appl
 
 const router = Router();
 
-router.use(authMiddleware);
+router.use('/admin', authMiddleware);
 
 router.get('/admin/applications', getApplications);
 router.patch('/admin/applications/:id', validate(updateApplicationSchema), patchApplication);
