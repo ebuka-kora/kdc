@@ -14,7 +14,7 @@ async function createEvent(data) {
 }
 
 async function updateEvent(id, data) {
-  return Event.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+  return Event.findByIdAndUpdate(id, { $set: data }, { new: true, runValidators: true });
 }
 
 async function deleteEvent(id) {
